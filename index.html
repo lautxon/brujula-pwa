@@ -3,50 +3,207 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="/manifest.json">
+  <title>MUAR 2.0</title>
+  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0a0a0a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Brújula Tecnológica | MUAR 2.0</title>
-  <meta http-equiv="refresh" content="0; url=capa1.html">
+  <meta name="description" content="Explorá tecnología con conciencia. Una web app para imaginar tu camino en el mundo tech.">
   <style>
     :root {
       --bg-primary: #0a0a0a;
       --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --text-muted: #808080;
       --accent: #7a9cff;
+      --accent-gold: #c9a962;
     }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     body {
       background-color: var(--bg-primary);
       color: var(--text-primary);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
+      min-height: 100vh;
       padding: 20px;
+      text-align: center;
     }
-    a { color: var(--accent); }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .logo {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+
+    .hero-image-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 24px auto;
+      cursor: pointer;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--accent);
+      transition: all 0.3s ease;
+      background-color: var(--bg-primary);
+    }
+
+    .hero-image-container:hover,
+    .hero-image-container:focus {
+      border-color: var(--accent-gold);
+      transform: scale(1.02);
+      outline: none;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .placeholder-image {
+      width: 100%;
+      height: 250px;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .tap-hint {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-top: 12px;
+      margin-bottom: 24px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .footer-tagline {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--bg-secondary);
+    }
+
+    .footer-tagline strong {
+      color: var(--accent);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    @media (max-width: 480px) {
+      .logo { font-size: 3rem; }
+      .title { font-size: 1.75rem; }
+    }
   </style>
 </head>
 <body>
-  <div>
-    <p>🧭 Redirigiendo a la Brújula Tecnológica...</p>
-    <p><a href="capa1.html">Si no redirige automáticamente, tocá acá</a></p>
+  <a href="capa1.html" class="sr-only">Comenzar exploración</a>
+  
+  <div class="container">
+    <div class="logo">🧭</div>
+    <h1 class="title">BrújuLA 2.0</h1>
+    <p class="subtitle">Pensada para imaginar.</p>
+    
+    <!-- IMAGEN INTERACTIVA -->
+<a href="capa1.html" class="hero-image-container" tabindex="0" aria-label="Tocá para comenzar">
+  <img 
+    src="hero-young-tech.png" 
+    alt="Tres jóvenes interactuando con íconos tecnológicos transparentes" 
+    class="hero-image"
+  >
+</a>
+
+<p class="tap-hint">👆 Tocá para comenzar</p>
+    
+    <p style="color: var(--text-muted); font-size: 0.85rem;">
+      Redirigiendo en <span id="countdown">5</span>s...<br>
+      <a href="capa1.html" style="color: var(--accent);">o tocá acá</a>
+    </p>
+
+    <div class="footer-tagline">
+      Esta Web App usa <strong>MUAR 2.0</strong>.<br>
+      Pensado para imaginar.
+    </div>
   </div>
+
   <script>
-    // Registrar service worker si existe
+    // Redirección automática
+    let seconds = 5;
+    const countdownEl = document.getElementById('countdown');
+    
+    const timer = setInterval(() => {
+      seconds--;
+      countdownEl.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(timer);
+        window.location.href = 'capa1.html';
+      }
+    }, 1000);
+
+    // Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
-        .then(() => console.log('Service Worker registrado'));
+        .then(() => console.log('SW registrado'));
     }
+
+    // Accesibilidad
+    document.querySelector('.hero-image-container').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.location.href = 'capa1.html';
+      }
+    });
   </script>
-  <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then(() => console.log('Service Worker registrado'));
-  }
-</script>
 </body>
 </html>
