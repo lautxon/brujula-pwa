@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MUAR 2.0 — Capa 5: Territorio</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #1a1a1a;
+      --bg-tertiary: #252525;
+      --bg-card: #1e1e1e;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --text-muted: #808080;
+      --accent: #7a9cff;
+      --accent-dim: #5a7acc;
+      --accent-gold: #c9a962;
+      --border: #333333;
+      --success: #6fcc8a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-size: 18px;
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 1.4rem; color: var(--accent-gold); margin-bottom: 4px; font-weight: 600; }
+    h2 { font-size: 1.25rem; color: var(--text-primary); margin: 28px 0 12px 0; font-weight: 600; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-size: 1.1rem; color: var(--text-secondary); margin: 20px 0 8px 0; font-weight: 500; }
+    p { margin-bottom: 16px; color: var(--text-secondary); }
+    .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; font-style: italic; }
+    .quote { border-left: 3px solid var(--accent-gold); padding-left: 16px; margin: 20px 0; color: var(--text-secondary); font-style: italic; background-color: var(--bg-tertiary); padding: 12px 16px; border-radius: 0 6px 6px 0; }
+    .card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .card-title { color: var(--accent-gold); font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 1.05rem; }
+    .journal-input, .journal-select { width: 100%; padding: 12px; background-color: var(--bg-primary); border: 1px solid var(--border); border-radius: 4px; color: var(--text-primary); font-size: 1rem; margin-bottom: 12px; }
+    .journal-input:focus, .journal-select:focus { outline: none; border-color: var(--accent-gold); }
+    .cta-button { display: block; width: 100%; padding: 14px 20px; background-color: var(--accent-gold); color: #000; text-align: center; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 20px 0 12px 0; transition: background-color 0.2s ease; border: none; font-size: 1rem; cursor: pointer; }
+    .cta-button:hover, .cta-button:focus { background-color: #b8954a; outline: none; }
+    .cta-secondary { background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+    .cta-secondary:hover, .cta-secondary:focus { background-color: var(--border); }
+    .cta-group { display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
+    .resource-card { background-color: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; padding: 16px; margin-bottom: 12px; transition: all 0.2s ease; }
+    .resource-card:hover { border-color: var(--accent); }
+    .resource-name { color: var(--accent); font-weight: 600; margin-bottom: 6px; font-size: 1.05rem; }
+    .resource-type { display: inline-block; background-color: var(--bg-primary); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+    .resource-detail { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 4px; }
+    .resource-detail strong { color: var(--text-primary); }
+    .resource-link { display: inline-block; margin-top: 8px; color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    .resource-link:hover { text-decoration: underline; }
+    .filter-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .filter-btn { padding: 8px 16px; background-color: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 20px; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease; }
+    .filter-btn:hover, .filter-btn.active { background-color: var(--accent); color: #000; border-color: var(--accent); }
+    .loading { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+    .no-results { text-align: center; padding: 40px 20px; color: var(--text-muted); font-style: italic; }
+    .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; text-align: center; }
+    .footer-tagline { color: var(--accent-gold); font-style: italic; margin-bottom: 8px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="sr-only">Saltar al contenido principal</a>
+  
+  <header>
+    <h1>🗺️ Capa 5: Territorio</h1>
+    <p class="subtitle">MUAR 2.0 — ¿Dónde puedo estudiar/trabajar acá?</p>
+  </header>
+
+  <main id="main-content">
+    <section class="card">
+      <div class="card-title">📍 ¿Dónde estás?</div>
+      <p>Seleccioná tu ubicación para ver oportunidades de formación y trabajo en tecnología cerca tuyo.</p>
+      
+      <label for="pais" class="sr-only">País</label>
+      <select id="pais" class="journal-select">
+        <option value="">Seleccioná tu país...</option>
+        <option value="Argentina">🇦🇷 Argentina</option>
+        <option value="Uruguay">🇺🇾 Uruguay</option>
+        <option value="Chile">🇨🇱 Chile</option>
+        <option value="México">🇲🇽 México</option>
+        <option value="Colombia">🇨🇴 Colombia</option>
+        <option value="Perú">🇵🇪 Perú</option>
+        <option value="España">🇪🇸 España</option>
+        <option value="Otro">🌍 Otro país</option>
+      </select>
+      
+      <label for="provincia" class="sr-only">Provincia/Estado</label>
+      <select id="provincia" class="journal-select" disabled>
+        <option value="">Primero seleccioná un país...</option>
+      </select>
+      
+      <button class="cta-button" onclick="buscarRecursos()">🔍 Buscar oportunidades</button>
+    </section>
+
+    <section id="filtros" class="card" style="display: none;">
+      <div class="card-title">🎯 Filtrar por tipo</div>
+      <div class="filter-group">
+        <button class="filter-btn active" onclick="filtrar('todos')">Todos</button>
+        <button class="filter-btn" onclick="filtrar('universidad')">🎓 Universidad</button>
+        <button class="filter-btn" onclick="filtrar('bootcamp')">⚡ Bootcamp</button>
+        <button class="filter-btn" onclick="filtrar('beca')">💰 Beca</button>
+        <button class="filter-btn" onclick="filtrar('online')">💻 Online</button>
+        <button class="filter-btn" onclick="filtrar('trabajo')">💼 Trabajo</button>
+      </div>
+    </section>
+
+    <section id="resultados" class="card" style="display: none;">
+      <div class="card-title">📚 Recursos encontrados</div>
+      <div id="lista-recursos"></div>
+    </section>
+
+    <section id="loading" class="loading" style="display: none;">
+      <p>🔍 Buscando recursos en tu zona...</p>
+    </section>
+
+    <section class="card">
+      <div class="card-title">🤝 ¿Conocés un recurso que debería estar acá?</div>
+      <p>Ayudanos a hacer crecer esta lista. Si conocés una institución, bootcamp o programa de becas que no está listado, podés sugerirlo.</p>
+      <a href="https://forms.gle/XXXXXXXXX" class="cta-button cta-secondary" target="_blank">📝 Sugerir recurso</a>
+    </section>
+
+    <section class="card">
+      <div class="card-title">🧭 Navegación</div>
+      <div class="cta-group">
+        <a href="capa4.html" class="cta-button cta-secondary">← Volver a Capa 4: Ítaca</a>
+        <a href="capa1.html" class="cta-button cta-secondary">🔄 Empezar de nuevo</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-tagline">Esta Web App usa MUAR 2.0. Pensado para imaginar.</p>
+    <p>MUAR — Marco Universal de Aprendizaje Recursivo</p>
+    <p>El espectro permanece abierto.</p>
+    <p>🐍✨🧠🌍</p>
+  </footer>
+
+  <script>
+    // Datos de recursos (en producción, esto vendría de un JSON externo)
+    const recursos = {
+      "Argentina": {
+        "Buenos Aires": [
+          { nombre: "Universidad de Buenos Aires (UBA)", tipo: "universidad", carreras: ["Lic. en Sistemas", "Ing. en Informática"], costo: "Gratis", modalidad: "Presencial", url: "https://www.uba.ar", duracion: "5-6 años" },
+          { nombre: "Mercado Libre Talent", tipo: "beca", carreras: ["Desarrollo Full Stack"], costo: "Gratis", modalidad: "Online", url: "https://talent.mercadolibre.com", duracion: "6 meses" },
+          { nombre: "Henry", tipo: "bootcamp", carreras: ["Desarrollo Web", "Data Science"], costo: "ISA (pagás cuando trabajás)", modalidad: "Online", url: "https://soyhenry.com", duracion: "9 meses" },
+          { nombre: "UTN Buenos Aires", tipo: "universidad", carreras: ["Ing. en Sistemas"], costo: "Arancelado", modalidad: "Presencial/Híbrido", url: "https://www.utn.edu.ar", duracion: "5-6 años" }
+        ],
+        "Córdoba": [
+          { nombre: "Universidad Nacional de Córdoba", tipo: "universidad", carreras: ["Ing. en Computación", "Lic. en Sistemas"], costo: "Gratis", modalidad: "Presencial", url: "https://www.unc.edu.ar", duracion: "5-6 años" },
+          { nombre: "Universidad Tecnológica Nacional (UTN)", tipo: "universidad", carreras: ["Ing. en Sistemas"], costo: "Arancelado", modalidad: "Presencial", url: "https://www.utn.edu.ar", duracion: "5-6 años" }
+        ],
+        "Rosario": [
+          { nombre: "Universidad Nacional de Rosario", tipo: "universidad", carreras: ["Ing. en Sistemas", "Lic. en Informática"], costo: "Gratis", modalidad: "Presencial", url: "https://www.unr.edu.ar", duracion: "5-6 años" }
+        ],
+        "Online": [
+          { nombre: "Coderhouse", tipo: "bootcamp", carreras: ["Desarrollo Web", "UX/UI", "Data"], costo: "Arancelado", modalidad: "Online", url: "https://www.coderhouse.com", duracion: "3-6 meses" },
+          { nombre: "Platzi", tipo: "online", carreras: ["Múltiples rutas tech"], costo: "Suscripción", modalidad: "Online", url: "https://platzi.com", duracion: "A tu ritmo" }
+        ]
+      },
+      "Uruguay": {
+        "Montevideo": [
+          { nombre: "Universidad de la República", tipo: "universidad", carreras: ["Ing. en Computación"], costo: "Gratis", modalidad: "Presencial", url: "https://www.udelar.edu.uy", duracion: "5-6 años" },
+          { nombre: "Universidad ORT", tipo: "universidad", carreras: ["Ing. en Sistemas", "Lic. en TI"], costo: "Arancelado", modalidad: "Presencial/Híbrido", url: "https://www.ort.edu.uy", duracion: "4-5 años" }
+        ],
+        "Online": [
+          { nombre: "Laboratoria Uruguay", tipo: "beca", carreras: ["Desarrollo Web"], costo: "Gratis (con postulación)", modalidad: "Online", url: "https://www.laboratoria.la", duracion: "6 meses" }
+        ]
+      },
+      "Chile": {
+        "Santiago": [
+          { nombre: "Universidad de Chile", tipo: "universidad", carreras: ["Ing. Civil Informática"], costo: "Arancelado (con becas)", modalidad: "Presencial", url: "https://www.uchile.cl", duracion: "6 años" },
+          { nombre: "Pontificia Universidad Católica", tipo: "universidad", carreras: ["Ing. Informática", "Ciencia de Datos"], costo: "Arancelado (con becas)", modalidad: "Presencial", url: "https://www.uc.cl", duracion: "5-6 años" }
+        ],
+        "Online": [
+          { nombre: "Duoc UC Online", tipo: "universidad", carreras: ["Téc. en Programación"], costo: "Arancelado", modalidad: "Online", url: "https://www.duoc.cl", duracion: "2-3 años" }
+        ]
+      },
+      "México": {
+        "Ciudad de México": [
+          { nombre: "UNAM", tipo: "universidad", carreras: ["Ing. en Computación", "Lic. en Informática"], costo: "Gratis", modalidad: "Presencial", url: "https://www.unam.mx", duracion: "4-5 años" },
+          { nombre: "Tec de Monterrey", tipo: "universidad", carreras: ["Ing. en Tecnologías Computacionales"], costo: "Arancelado (con becas)", modalidad: "Presencial/Híbrido", url: "https://tec.mx", duracion: "4-5 años" }
+        ],
+        "Online": [
+          { nombre: "KeepCoding", tipo: "bootcamp", carreras: ["Desarrollo Full Stack", "DevOps"], costo: "Arancelado", modalidad: "Online", url: "https://keepcoding.io", duracion: "6-12 meses" }
+        ]
+      },
+      "Colombia": {
+        "Bogotá": [
+          { nombre: "Universidad Nacional de Colombia", tipo: "universidad", carreras: ["Ing. de Sistemas", "Ing. de Software"], costo: "Gratis/Arancelado", modalidad: "Presencial", url: "https://www.unal.edu.co", duracion: "5-6 años" },
+          { nombre: "Universidad de los Andes", tipo: "universidad", carreras: ["Ing. de Sistemas y Computación"], costo: "Arancelado (con becas)", modalidad: "Presencial", url: "https://www.uniandes.edu.co", duracion: "5 años" }
+        ],
+        "Online": [
+          { nombre: "Platzi", tipo: "online", carreras: ["Múltiples rutas tech"], costo: "Suscripción", modalidad: "Online", url: "https://platzi.com", duracion: "A tu ritmo" }
+        ]
+      },
+      "Perú": {
+        "Lima": [
+          { nombre: "Pontificia Universidad Católica del Perú", tipo: "universidad", carreras: ["Ing. Informática", "Ciencia de Datos"], costo: "Arancelado (con becas)", modalidad: "Presencial", url: "https://www.pucp.edu.pe", duracion: "5 años" },
+          { nombre: "Universidad de Lima", tipo: "universidad", carreras: ["Ing. de Software"], costo: "Arancelado", modalidad: "Presencial", url: "https://www.ulima.edu.pe", duracion: "5 años" }
+        ]
+      },
+      "España": {
+        "Madrid": [
+          { nombre: "Universidad Politécnica de Madrid", tipo: "universidad", carreras: ["Ing. Informática", "Ing. de Software"], costo: "Arancelado (UE)", modalidad: "Presencial", url: "https://www.upm.es", duracion: "4-5 años" }
+        ],
+        "Barcelona": [
+          { nombre: "Universitat Politècnica de Catalunya", tipo: "universidad", carreras: ["Ing. Informática"], costo: "Arancelado (UE)", modalidad: "Presencial", url: "https://www.upc.edu", duracion: "4-5 años" }
+        ],
+        "Online": [
+          { nombre: "Ironhack", tipo: "bootcamp", carreras: ["Web Development", "Data Analytics"], costo: "Arancelado", modalidad: "Online/Presencial", url: "https://www.ironhack.com", duracion: "3-9 meses" }
+        ]
+      }
+    };
+
+    let recursosActuales = [];
+    let filtroActual = 'todos';
+
+    // Cargar provincias según país
+    document.getElementById('pais').addEventListener('change', function() {
+      const provinciaSelect = document.getElementById('provincia');
+      const pais = this.value;
+      
+      provinciaSelect.innerHTML = '<option value="">Seleccioná tu provincia/estado...</option>';
+      
+      if (pais && recursos[pais]) {
+        provinciaSelect.disabled = false;
+        Object.keys(recursos[pais]).forEach(prov => {
+          const option = document.createElement('option');
+          option.value = prov;
+          option.textContent = prov;
+          provinciaSelect.appendChild(option);
+        });
+      } else {
+        provinciaSelect.disabled = true;
+        provinciaSelect.innerHTML = '<option value="">Primero seleccioná un país...</option>';
+      }
+    });
+
+    // Buscar recursos
+    function buscarRecursos() {
+      const pais = document.getElementById('pais').value;
+      const provincia = document.getElementById('provincia').value;
+      
+      if (!pais) {
+        alert('⚠️ Por favor, seleccioná un país primero.');
+        return;
+      }
+
+      // Mostrar loading
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('resultados').style.display = 'none';
+      document.getElementById('filtros').style.display = 'none';
+
+      setTimeout(() => {
+        recursosActuales = [];
+        
+        if (provincia && recursos[pais] && recursos[pais][provincia]) {
+          recursosActuales = recursos[pais][provincia];
+        } else if (recursos[pais]) {
+          // Si no hay provincia específica, mostrar todos los del país + online
+          Object.values(recursos[pais]).forEach(lista => {
+            recursosActuales = recursosActuales.concat(lista);
+          });
+        }
+
+        // Mostrar resultados
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('filtros').style.display = 'block';
+        document.getElementById('resultados').style.display = 'block';
+        
+        renderizarRecursos();
+      }, 800);
+    }
+
+    // Filtrar recursos
+    function filtrar(tipo) {
+      filtroActual = tipo;
+      
+      // Actualizar botones
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      renderizarRecursos();
+    }
+
+    // Renderizar recursos
+    function renderizarRecursos() {
+      const contenedor = document.getElementById('lista-recursos');
+      contenedor.innerHTML = '';
+
+      let filtrados = recursosActuales;
+      
+      if (filtroActual !== 'todos') {
+        filtrados = recursosActuales.filter(r => {
+          if (filtroActual === 'online') return r.modalidad.toLowerCase().includes('online');
+          return r.tipo === filtroActual;
+        });
+      }
+
+      if (filtrados.length === 0) {
+        contenedor.innerHTML = '<div class="no-results"><p>😕 No se encontraron recursos con esos filtros.</p><p>Probá con otro filtro o sugerí un recurso nuevo.</p></div>';
+        return;
+      }
+
+      filtrados.forEach(recurso => {
+        const card = document.createElement('div');
+        card.className = 'resource-card';
+        card.innerHTML = `
+          <div class="resource-name">${recurso.nombre}</div>
+          <span class="resource-type">${recurso.tipo.toUpperCase()}</span>
+          <div class="resource-detail"><strong>Carreras:</strong> ${recurso.carreras.join(', ')}</div>
+          <div class="resource-detail"><strong>Costo:</strong> ${recurso.costo}</div>
+          <div class="resource-detail"><strong>Modalidad:</strong> ${recurso.modalidad}</div>
+          <div class="resource-detail"><strong>Duración:</strong> ${recurso.duracion}</div>
+          <a href="${recurso.url}" target="_blank" rel="noopener" class="resource-link">Visitar sitio →</a>
+        `;
+        contenedor.appendChild(card);
+      });
+    }
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('SW registrado'));
+    }
+  </script>
+</body>
+</html>
