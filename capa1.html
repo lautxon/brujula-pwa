@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Brújula Tecnológica | MUAR 2.0 — Capa 1</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #1a1a1a;
+      --bg-tertiary: #252525;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --text-muted: #808080;
+      --accent: #7a9cff;
+      --accent-dim: #5a7acc;
+      --border: #333333;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-size: 18px;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 { font-size: 1.5rem; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
+    h2 { font-size: 1.2rem; color: var(--text-primary); margin: 24px 0 12px 0; font-weight: 500; }
+    h3 { font-size: 1.1rem; color: var(--text-secondary); margin: 20px 0 8px 0; font-weight: 500; }
+    p { margin-bottom: 16px; color: var(--text-secondary); }
+    .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; }
+    .card { background-color: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .card-title { color: var(--accent); font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .door-selector { display: flex; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
+    .door-btn { flex: 1; min-width: 100px; padding: 12px 16px; background-color: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; text-align: center; }
+    .door-btn:hover, .door-btn:focus { background-color: var(--accent-dim); border-color: var(--accent); outline: none; }
+    .door-btn.active { background-color: var(--accent); color: #000; font-weight: 600; }
+    .door-content { display: none; animation: fadeIn 0.3s ease; }
+    .door-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .code-block { background-color: var(--bg-primary); border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-family: monospace; font-size: 0.85rem; color: var(--text-primary); overflow-x: auto; margin: 12px 0; }
+    .step-list { list-style: none; padding-left: 0; }
+    .step-list li { position: relative; padding-left: 24px; margin-bottom: 12px; color: var(--text-secondary); }
+    .step-list li::before { content: "→"; position: absolute; left: 0; color: var(--accent); }
+    .quote { border-left: 3px solid var(--accent); padding-left: 16px; margin: 20px 0; color: var(--text-secondary); font-style: italic; }
+    .trajectory { background-color: var(--bg-secondary); border-radius: 8px; padding: 20px; margin: 24px 0; }
+    .trajectory-name { color: var(--accent); font-weight: 600; margin-top: 16px; font-style: normal; }
+    .cta-button { display: block; width: 100%; padding: 14px 20px; background-color: var(--accent); color: #000; text-align: center; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 20px 0; transition: background-color 0.2s ease; border: none; font-size: 1rem; cursor: pointer; }
+    .cta-button:hover, .cta-button:focus { background-color: var(--accent-dim); outline: none; }
+    .cta-secondary { background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+    .cta-secondary:hover, .cta-secondary:focus { background-color: var(--border); }
+    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; text-align: center; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="sr-only">Saltar al contenido principal</a>
+  
+  <header>
+    <h1>🧭 Brújula Tecnológica</h1>
+    <p class="subtitle">MUAR 2.0 — Capa 1: Exploración inicial (15 min)</p>
+  </header>
+
+  <main id="main-content">
+    <section class="card">
+      <p>Estás acá porque algo te llama. No necesitás saber qué es todavía. Solo necesitás curiosidad.</p>
+      <p>Elegí una puerta. Ninguna es la correcta. Todas llevan al mismo lugar.</p>
+    </section>
+
+    <nav class="door-selector" role="tablist" aria-label="Puertas de entrada">
+      <button class="door-btn active" role="tab" aria-selected="true" aria-controls="door-ludica" id="tab-ludica" onclick="showDoor('ludica')">🎮 Lúdica</button>
+      <button class="door-btn" role="tab" aria-selected="false" aria-controls="door-tecnica" id="tab-tecnica" onclick="showDoor('tecnica')">💻 Técnica</button>
+      <button class="door-btn" role="tab" aria-selected="false" aria-controls="door-reflexiva" id="tab-reflexiva" onclick="showDoor('reflexiva')">🤔 Reflexiva</button>
+    </nav>
+
+    <section id="door-ludica" class="door-content active" role="tabpanel" aria-labelledby="tab-ludica">
+      <div class="card">
+        <div class="card-title">🎮 ¿Qué hay detrás del juego?</div>
+        <p>Jugás algo en el celular. ¿Te preguntaste alguna vez cómo sabe el juego cuándo ganaste? ¿Quién le dijo eso?</p>
+        <h3>Micro-experiencia (5 min)</h3>
+        <ol class="step-list">
+          <li>Abrió cualquier juego simple en tu celular.</li>
+          <li>Jugá una partida y perdé a propósito.</li>
+          <li>Preguntate: <em>¿El juego "sabe" que perdí? ¿Cómo?</em></li>
+          <li>Escribí en una nota tu mejor hipótesis (3 líneas máximo).</li>
+        </ol>
+        <div class="quote">"Eso que imaginaste tiene nombre: <strong>lógica de programación</strong>. No es magia. Es código. Y se puede aprender."</div>
+        <a href="capa2.html" class="cta-button">Continuar a Capa 2 →</a>
+      </div>
+    </section>
+
+    <section id="door-tecnica" class="door-content" role="tabpanel" aria-labelledby="tab-tecnica" hidden>
+      <div class="card">
+        <div class="card-title">💻 Tu primer código en 3 minutos</div>
+        <p>No necesitás instalar nada. Tu celular ya puede ejecutar código.</p>
+        <h3>Micro-experiencia (5 min)</h3>
+        <ol class="step-list">
+          <li>Abrió el navegador de tu celular.</li>
+          <li>Entrá a <a href="https://replit.com" style="color: var(--accent);">replit.com</a> o <a href="https://www.programiz.com/python-online-compiler" style="color: var(--accent);">programiz.com</a>.</li>
+          <li>Copiá y pegá esto:</li>
+        </ol>
+        <div class="code-block"><pre>nombre = input("¿Cómo te llamás? ")
+print(f"Hola {nombre}. Si estás leyendo esto, ya programaste.")</pre></div>
+        <ol class="step-list" start="4">
+          <li>Tocá "Run". Escribí tu nombre. Mirá qué pasa.</li>
+        </ol>
+        <div class="quote">"Acabás de escribir un programa. No es mucho, pero es el mismo principio que usa una app, un juego, una IA. <strong>El primer paso ya lo diste.</strong>"</div>
+        <a href="capa2.html" class="cta-button">Continuar a Capa 2 →</a>
+      </div>
+    </section>
+
+    <section id="door-reflexiva" class="door-content" role="tabpanel" aria-labelledby="tab-reflexiva" hidden>
+      <div class="card">
+        <div class="card-title">🤔 ¿Quién decide qué tecnología existe?</div>
+        <p>Hay tecnologías que cambian vidas. Otras que las complican. ¿Quién elige cuáles se construyen?</p>
+        <h3>Micro-experiencia (5 min)</h3>
+        <ol class="step-list">
+          <li>Pensá en una app que usás todos los días.</li>
+          <li>Escribí en una nota:</li>
+        </ol>
+        <ul class="step-list">
+          <li>¿Qué te da esa app?</li>
+          <li>¿Qué le das vos a esa app? (datos, tiempo, atención)</li>
+          <li>¿Quién gana más en ese intercambio?</li>
+        </ul>
+        <div class="quote">"Esto se llama <strong>ética tecnológica</strong>. No es un 'extra'. Es parte de construir tecnología que sirva a las personas, no al revés."</div>
+        <a href="capa2.html" class="cta-button">Continuar a Capa 2 →</a>
+      </div>
+    </section>
+
+    <section class="trajectory">
+      <h2>🪞 Espejo de trayectoria</h2>
+      <p><strong>"No empecé sabiendo. Empecé preguntando."</strong></p>
+      <p>Me llamo Camila. Tengo 24 años. Trabajo como desarrolladora en una empresa de Córdoba.</p>
+      <p>Cuando tenía 16, no sabía qué era "programar". Pensaba que era para genios con computadoras caras. Yo tenía un celular gama baja y mucha duda.</p>
+      <p>Un día, un profesor nos mostró que se podía escribir código en el navegador del celular. Lo intenté. Fallé. Volví a intentar. Fallé distinto.</p>
+      <p>En el camino, cambié de idea tres veces: pensé en diseño, después en datos, después en seguridad. Ninguna fue "la correcta". Todas fueron <strong>pasos</strong>.</p>
+      <p>Hoy sé que lo que me trajo hasta acá no fue certeza. Fue <strong>curiosidad sostenida</strong>. Y la posibilidad de equivocarme sin que me dijeran que fracasé.</p>
+      <p>Si estás leyendo esto y sentís que "no es para vos", te digo algo: a mí tampoco me lo parecía. <strong>El camino se hace al andar.</strong></p>
+      <p class="trajectory-name">— Camila, desarrolladora backend. Primer código: 2018. Primer trabajo: 2022.</p>
+    </section>
+
+    <section>
+      <h2>¿Querés seguir?</h2>
+      <p>Si llegaste hasta acá, ya hiciste más de lo que muchos hacen: <strong>exploraste</strong>.</p>
+      <p>Si querés más, hay más. Si no, está bien. La puerta queda abierta.</p>
+      <a href="capa2.html" class="cta-button">Ver Capa 2: Profundización →</a>
+      <a href="https://github.com" class="cta-button cta-secondary">📌 Guardar para después (marcar como favorito)</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>MUAR 2.0 — Marco Universal de Aprendizaje Recursivo</p>
+    <p>El espectro permanece abierto.</p>
+    <p>🐍✨🧠🌍</p>
+  </footer>
+
+  <script>
+    function showDoor(doorId) {
+      document.querySelectorAll('.door-content').forEach(content => {
+        content.classList.remove('active');
+        content.hidden = true;
+      });
+      document.querySelectorAll('.door-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      const selectedContent = document.getElementById('door-' + doorId);
+      selectedContent.classList.add('active');
+      selectedContent.hidden = false;
+      const selectedBtn = document.getElementById('tab-' + doorId);
+      selectedBtn.classList.add('active');
+      selectedBtn.setAttribute('aria-selected', 'true');
+      localStorage.setItem('muar_capa1_puerta', doorId);
+    }
+
+    document.querySelectorAll('.door-btn').forEach((btn, index) => {
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          const nextBtn = document.querySelectorAll('.door-btn')[index + 1] || document.querySelectorAll('.door-btn')[0];
+          nextBtn.focus();
+          nextBtn.click();
+        } else if (e.key === 'ArrowLeft') {
+          const prevBtn = document.querySelectorAll('.door-btn')[index - 1] || document.querySelectorAll('.door-btn')[document.querySelectorAll('.door-btn').length - 1];
+          prevBtn.focus();
+          prevBtn.click();
+        }
+      });
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => console.log('SW registrado'));
+    }
+  </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('Service Worker registrado'));
+  }
+</script>
+</body>
+</html>

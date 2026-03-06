@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Brújula Tecnológica | MUAR 2.0 — Capa 4: ÍTACA</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a; --bg-secondary: #1a1a1a; --bg-tertiary: #252525; --bg-card: #1e1e1e; --bg-accent: #2a2a4a;
+      --text-primary: #e0e0e0; --text-secondary: #b0b0b0; --text-muted: #808080;
+      --accent: #7a9cff; --accent-dim: #5a7acc; --accent-soft: #9ab0ff;
+      --accent-gold: #c9a962; --border: #333333; --success: #6fcc8a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-primary); color: var(--text-primary); line-height: 1.6; font-size: 18px; padding: 16px; max-width: 600px; margin: 0 auto; }
+    h1 { font-size: 1.4rem; color: var(--accent-gold); margin-bottom: 4px; font-weight: 600; }
+    h2 { font-size: 1.25rem; color: var(--text-primary); margin: 28px 0 12px 0; font-weight: 600; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-size: 1.1rem; color: var(--text-secondary); margin: 20px 0 8px 0; font-weight: 500; }
+    p { margin-bottom: 16px; color: var(--text-secondary); }
+    .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; font-style: italic; }
+    .epigraph { border-left: 3px solid var(--accent-gold); padding-left: 16px; margin: 20px 0; color: var(--text-secondary); font-style: italic; background-color: var(--bg-tertiary); padding: 12px 16px; border-radius: 0 6px 6px 0; font-size: 0.95rem; }
+    .quote { border-left: 3px solid var(--accent); padding-left: 16px; margin: 20px 0; color: var(--text-secondary); font-style: italic; background-color: var(--bg-tertiary); padding: 12px 16px; border-radius: 0 6px 6px 0; }
+    .card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .card-title { color: var(--accent-gold); font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 1.05rem; }
+    .card-title.accent { color: var(--accent); }
+    .totem-box { background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-accent) 100%); border: 1px solid var(--accent-gold); border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+    .totem-icon { font-size: 3rem; margin-bottom: 12px; }
+    .totem-text { color: var(--accent-gold); font-weight: 500; margin-bottom: 8px; }
+    .totem-subtext { color: var(--text-muted); font-size: 0.9rem; }
+    .mirror-grid { display: grid; gap: 12px; margin: 16px 0; }
+    .mirror-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; background-color: var(--bg-tertiary); border-radius: 6px; }
+    .mirror-col { text-align: center; }
+    .mirror-col-header { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .mirror-col-content { color: var(--text-secondary); font-size: 0.95rem; }
+    .mirror-col:first-child .mirror-col-header { color: var(--accent); }
+    .mirror-col:last-child .mirror-col-header { color: var(--accent-gold); }
+    @media (max-width: 480px) { .mirror-row { grid-template-columns: 1fr; } }
+    .gates-grid { display: grid; gap: 12px; margin: 16px 0; }
+    .gate-card { padding: 16px; background-color: var(--bg-tertiary); border-radius: 6px; border-left: 4px solid var(--accent); cursor: pointer; transition: all 0.2s ease; }
+    .gate-card:hover, .gate-card:focus { background-color: var(--bg-accent); border-left-color: var(--accent-gold); outline: none; }
+    .gate-card.active { background-color: var(--bg-accent); border-left-color: var(--accent-gold); }
+    .gate-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .gate-icon { font-size: 1.2rem; }
+    .gate-title { font-weight: 600; color: var(--text-primary); }
+    .gate-desc { font-size: 0.9rem; color: var(--text-secondary); }
+    .gate-content { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border); animation: fadeIn 0.3s ease; }
+    .gate-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .contribution-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 12px 0; }
+    .contribution-table th, .contribution-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .contribution-table th { background-color: var(--bg-tertiary); color: var(--accent-gold); font-weight: 600; }
+    .contribution-table td { color: var(--text-secondary); }
+    .table-container { overflow-x: auto; margin: 16px 0; }
+    .compass-box { background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%); border: 1px solid var(--accent); border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+    .compass-icon { font-size: 3rem; margin-bottom: 12px; }
+    .compass-text { color: var(--accent); font-weight: 500; margin-bottom: 8px; }
+    .compass-subtext { color: var(--text-muted); font-size: 0.9rem; }
+    .ritual-box { background-color: var(--bg-accent); border: 1px solid var(--accent-gold); border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+    .ritual-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .ritual-text { color: var(--accent-gold); font-weight: 500; margin-bottom: 8px; }
+    .ritual-subtext { color: var(--text-muted); font-size: 0.9rem; }
+    .journal { background-color: var(--bg-card); border-radius: 8px; padding: 20px; margin: 24px 0; }
+    .journal-field { margin-bottom: 16px; }
+    .journal-label { display: block; color: var(--accent-gold); font-weight: 500; margin-bottom: 6px; font-size: 0.95rem; }
+    .journal-input, .journal-textarea { width: 100%; padding: 10px 12px; background-color: var(--bg-primary); border: 1px solid var(--border); border-radius: 4px; color: var(--text-primary); font-size: 0.95rem; }
+    .journal-textarea { min-height: 80px; resize: vertical; }
+    .journal-input:focus, .journal-textarea:focus { outline: none; border-color: var(--accent-gold); }
+    .cta-button { display: block; width: 100%; padding: 14px 20px; background-color: var(--accent-gold); color: #000; text-align: center; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 20px 0 12px 0; transition: background-color 0.2s ease; border: none; font-size: 1rem; cursor: pointer; }
+    .cta-button:hover, .cta-button:focus { background-color: #b8954a; outline: none; }
+    .cta-button.accent { background-color: var(--accent); }
+    .cta-button.accent:hover, .cta-button.accent:focus { background-color: var(--accent-dim); }
+    .cta-secondary { background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+    .cta-secondary:hover, .cta-secondary:focus { background-color: var(--border); }
+    .cta-group { display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
+    .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; text-align: center; }
+    .footer-poetic { color: var(--accent-gold); font-style: italic; margin-bottom: 8px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="sr-only">Saltar al contenido principal</a>
+  
+  <header>
+    <h1>🏛️ Capa 4: ÍTACA</h1>
+    <p class="subtitle">MUAR 2.0 — La ciudad de posibilidades</p>
+  </header>
+
+  <main id="main-content">
+    <section class="epigraph">
+      "Cuando te pongas en camino hacia Ítaca, / desea que el camino sea largo, / lleno de aventuras, lleno de conocimientos."
+      <br><small>— Constantino Cavafy</small>
+    </section>
+
+    <section class="card">
+      <div class="card-title">🧭 Capa 4 no es un nivel superior</div>
+      <p>Es una <strong>perspectiva</strong>.</p>
+      <p>No se "completa". Se <strong>habita</strong>.</p>
+      <p>No es el final del viaje. Es <strong>el momento de mirar atrás para entender quién sos ahora</strong>.</p>
+      <div class="quote">"Podés entrar a Ítaca desde cualquier capa. No hay que completar 1-2-3 para estar acá. La ciudad espera."</div>
+    </section>
+
+    <section>
+      <h2>🗿 El Tótem: Lo que te ancla al recorrido</h2>
+      <div class="totem-box">
+        <div class="totem-icon">🗿</div>
+        <div class="totem-text">Un tótem no es un trofeo</div>
+        <div class="totem-subtext">Es un recordatorio de lo que te llevás</div>
+      </div>
+      <div class="card">
+        <p><strong>Micro-activación (5 min):</strong></p>
+        <ol style="padding-left: 20px; color: var(--text-secondary);">
+          <li>Pensá en algo concreto que te llevás de este recorrido</li>
+          <li>Una pregunta que ahora sabés hacer</li>
+          <li>Un error que ya no te paraliza</li>
+          <li>Una herramienta que sabés usar</li>
+          <li>Una persona con la que conectaste</li>
+        </ol>
+        <p style="margin-top: 12px;">Escribila en una nota. <strong>Ese es tu tótem.</strong></p>
+      </div>
+      <button class="cta-button cta-secondary" onclick="saveTotem()">💾 Guardar mi tótem en notas</button>
+    </section>
+
+    <section>
+      <h2>🪞 El Espejo del Viaje: Quién eras, quién sos</h2>
+      <div class="quote">"Ulysses no volvió a Ítaca como quien se fue."</div>
+      <div class="mirror-grid">
+        <div class="mirror-row">
+          <div class="mirror-col"><div class="mirror-col-header">En Capa 1...</div><div class="mirror-col-content">¿Qué puerta elegiste?</div></div>
+          <div class="mirror-col"><div class="mirror-col-header">Ahora en Capa 4...</div><div class="mirror-col-content">¿Esa puerta te llevó donde esperabas?</div></div>
+        </div>
+        <div class="mirror-row">
+          <div class="mirror-col"><div class="mirror-col-header">En Capa 1...</div><div class="mirror-col-content">¿Qué sentías al empezar?</div></div>
+          <div class="mirror-col"><div class="mirror-col-header">Ahora en Capa 4...</div><div class="mirror-col-content">¿Qué sentís ahora?</div></div>
+        </div>
+      </div>
+      <div class="journal">
+        <div class="journal-field">
+          <label class="journal-label" for="espejo-texto">✍️ Completá (opcional):</label>
+          <textarea id="espejo-texto" class="journal-textarea" placeholder="Cuando empecé, yo _______. Ahora, yo _______."></textarea>
+        </div>
+        <button class="cta-button cta-secondary" onclick="saveMirror()">💾 Guardar reflexión</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>🚪 La Ciudad con Puertas: Múltiples salidas válidas</h2>
+      <div class="quote">"Ítaca no es un muro. Es un puerto con muchas puertas."</div>
+      <div class="gates-grid">
+        <button class="gate-card active" onclick="showGate('profundizacion')" id="gate-profundizacion">
+          <div class="gate-header"><span class="gate-icon">🔓</span><span class="gate-title">Puerta de la Profundización</span></div>
+          <div class="gate-desc">Si querés seguir especializándote</div>
+          <div class="gate-content active"><p style="color: var(--text-secondary); font-size: 0.95rem;">Becas, mentorías avanzadas, proyectos complejos.</p></div>
+        </button>
+        <button class="gate-card" onclick="showGate('reorientacion')" id="gate-reorientacion">
+          <div class="gate-header"><span class="gate-icon">🔄</span><span class="gate-title">Puerta de la Reorientación</span></div>
+          <div class="gate-desc">Si querés cambiar de rumbo</div>
+          <div class="gate-content"><p style="color: var(--text-secondary); font-size: 0.95rem;">Volver a Capa 1-2-3 con nueva perspectiva.</p></div>
+        </button>
+        <button class="gate-card" onclick="showGate('contribucion')" id="gate-contribucion">
+          <div class="gate-header"><span class="gate-icon">🤝</span><span class="gate-title">Puerta de la Contribución</span></div>
+          <div class="gate-desc">Si querés aportar a quien viene detrás</div>
+          <div class="gate-content"><p style="color: var(--text-secondary); font-size: 0.95rem;">Mentoría de pares, compartir portafolio.</p></div>
+        </button>
+        <button class="gate-card" onclick="showGate('pausa')" id="gate-pausa">
+          <div class="gate-header"><span class="gate-icon">🌱</span><span class="gate-title">Puerta de la Pausa</span></div>
+          <div class="gate-desc">Si necesitás descansar</div>
+          <div class="gate-content"><p style="color: var(--text-secondary); font-size: 0.95rem;">Guardar el tótem, volver cuando la curiosidad lo pida.</p></div>
+        </button>
+        <button class="gate-card" onclick="showGate('salida')" id="gate-salida">
+          <div class="gate-header"><span class="gate-icon">🚪</span><span class="gate-title">Puerta de la Salida</span></div>
+          <div class="gate-desc">Si decidís que esto no es para vos</div>
+          <div class="gate-content"><p style="color: var(--text-secondary); font-size: 0.95rem;">Está bien. La puerta queda abierta.</p></div>
+        </button>
+      </div>
+      <p style="text-align: center; color: var(--accent-soft); font-style: italic; margin-top: 16px;">Ninguna puerta es "la correcta". Todas son válidas.</p>
+    </section>
+
+    <section>
+      <h2>🧭 La Brújula Recalibrada: Tu próxima pregunta</h2>
+      <div class="compass-box">
+        <div class="compass-icon">🧭</div>
+        <div class="compass-text">La brújula no marca el Norte</div>
+        <div class="compass-subtext">Marca: "Vos estás acá"</div>
+      </div>
+      <div class="card">
+        <p>En Capa 1, la brújula te dio preguntas de entrada.</p>
+        <p><strong>En Capa 4, la brújula es tuya. Vos la calibrás.</strong></p>
+        <div class="journal">
+          <div class="journal-field">
+            <label class="journal-label" for="brujula-pregunta">✍️ Tu pregunta para el próximo ciclo:</label>
+            <textarea id="brujula-pregunta" class="journal-textarea" placeholder="No tiene que tener respuesta inmediata."></textarea>
+          </div>
+          <button class="cta-button cta-secondary" onclick="saveCompass()">💾 Guardar mi brújula</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>✨ Ritual de Cierre (Opcional)</h2>
+      <div class="ritual-box">
+        <div class="ritual-icon">🕯️</div>
+        <div class="ritual-text">Una palabra para Ítaca</div>
+        <div class="ritual-subtext">Cerrar no es terminar. Es reconocer un ciclo.</div>
+      </div>
+      <div class="journal">
+        <div class="journal-field">
+          <label class="journal-label" for="ritual-palabra">✍️ Una palabra que resuma este ciclo:</label>
+          <input type="text" id="ritual-palabra" class="journal-input" placeholder="Escribí una palabra...">
+        </div>
+        <button class="cta-button" onclick="completeRitual()">🏛️ Completar ritual</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-title accent">🚀 ¿Y ahora?</div>
+      <div class="cta-group">
+        <a href="capa1.html" class="cta-button cta-secondary">🔄 Empezar un nuevo ciclo</a>
+        <a href="capa3.html" class="cta-button cta-secondary">← Volver a Capa 3</a>
+      </div>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 12px;">El espectro permanece abierto.<br>Ítaca no te dio el viaje. El viaje te dio Ítaca.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-poetic">"Ítaca no te dio el viaje. El viaje te dio Ítaca."</p>
+    <p>MUAR 2.0 — Marco Universal de Aprendizaje Recursivo</p>
+    <p>El espectro permanece abierto.</p>
+    <p>🐍✨🧠🌍</p>
+  </footer>
+
+  <script>
+    function showGate(gateId) {
+      document.querySelectorAll('.gate-content').forEach(content => { content.classList.remove('active'); });
+      document.querySelectorAll('.gate-card').forEach(card => { card.classList.remove('active'); });
+      document.getElementById('gate-' + gateId).querySelector('.gate-content').classList.add('active');
+      document.getElementById('gate-' + gateId).classList.add('active');
+    }
+
+    function saveTotem() { alert('🗿 Tu tótem quedó guardado en tus notas.\n\nLlevalo con vos. Es tu ancla.'); }
+    function saveMirror() { alert('🪞 Reflexión guardada.\n\nMirá atrás cuando necesites recordar cuánto cambiaste.'); }
+    function saveCompass() { alert('🧭 Tu brújula quedó guardada.\n\nVolvé a ella cuando te pierdas.'); }
+    function completeRitual() { const palabra = document.getElementById('ritual-palabra').value; alert('✨ Ritual completado.\n\nPalabra: "' + (palabra || '...') + '"\n\nEl ciclo se cierra. El siguiente se abre.'); }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => console.log('SW registrado'));
+    }
+  </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('Service Worker registrado'));
+  }
+</script>
+</body>
+</html>

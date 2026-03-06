@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Brújula Tecnológica | MUAR 2.0 — Capa 2</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a; --bg-secondary: #1a1a1a; --bg-tertiary: #252525; --bg-card: #1e1e1e;
+      --text-primary: #e0e0e0; --text-secondary: #b0b0b0; --text-muted: #808080;
+      --accent: #7a9cff; --accent-dim: #5a7acc; --accent-soft: #9ab0ff; --border: #333333;
+      --success: #6fcc8a; --warning: #ffb86c;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-primary); color: var(--text-primary); line-height: 1.6; font-size: 18px; padding: 16px; max-width: 600px; margin: 0 auto; }
+    h1 { font-size: 1.4rem; color: var(--accent); margin-bottom: 4px; font-weight: 600; }
+    h2 { font-size: 1.25rem; color: var(--text-primary); margin: 28px 0 12px 0; font-weight: 600; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-size: 1.1rem; color: var(--text-secondary); margin: 20px 0 8px 0; font-weight: 500; }
+    p { margin-bottom: 16px; color: var(--text-secondary); }
+    .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; font-style: italic; }
+    .quote { border-left: 3px solid var(--accent); padding-left: 16px; margin: 20px 0; color: var(--text-secondary); font-style: italic; background-color: var(--bg-tertiary); padding: 12px 16px; border-radius: 0 6px 6px 0; }
+    .card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .card-title { color: var(--accent); font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 1.05rem; }
+    .route-options { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+    .route-btn { padding: 14px 16px; background-color: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; color: var(--text-primary); font-size: 0.95rem; cursor: pointer; text-align: left; transition: all 0.2s ease; display: flex; align-items: center; gap: 10px; }
+    .route-btn:hover, .route-btn:focus { background-color: var(--accent-dim); border-color: var(--accent); outline: none; }
+    .route-btn.active { background-color: var(--accent); color: #000; font-weight: 600; }
+    .route-icon { font-size: 1.2rem; }
+    .route-content { display: none; animation: fadeIn 0.3s ease; padding: 12px 0; }
+    .route-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .table-container { overflow-x: auto; margin: 16px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background-color: var(--bg-tertiary); color: var(--accent); font-weight: 600; }
+    td { color: var(--text-secondary); }
+    .journal { background-color: var(--bg-secondary); border-radius: 8px; padding: 20px; margin: 24px 0; }
+    .journal-field { margin-bottom: 16px; }
+    .journal-label { display: block; color: var(--accent); font-weight: 500; margin-bottom: 6px; font-size: 0.95rem; }
+    .journal-input { width: 100%; padding: 10px 12px; background-color: var(--bg-primary); border: 1px solid var(--border); border-radius: 4px; color: var(--text-primary); font-size: 0.95rem; min-height: 40px; }
+    .journal-input:focus { outline: none; border-color: var(--accent); }
+    .signals { display: grid; gap: 12px; margin: 16px 0; }
+    .signal-card { padding: 12px 16px; border-radius: 6px; border-left: 4px solid; }
+    .signal-positive { background-color: rgba(111, 207, 138, 0.1); border-left-color: var(--success); }
+    .signal-reorient { background-color: rgba(255, 184, 108, 0.1); border-left-color: var(--warning); }
+    .signal-title { font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .cta-button { display: block; width: 100%; padding: 14px 20px; background-color: var(--accent); color: #000; text-align: center; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 20px 0 12px 0; transition: background-color 0.2s ease; border: none; font-size: 1rem; cursor: pointer; }
+    .cta-button:hover, .cta-button:focus { background-color: var(--accent-dim); outline: none; }
+    .cta-secondary { background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+    .cta-secondary:hover, .cta-secondary:focus { background-color: var(--border); }
+    .cta-group { display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
+    .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; text-align: center; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="sr-only">Saltar al contenido principal</a>
+  
+  <header>
+    <h1>🧭 Brújula Tecnológica</h1>
+    <p class="subtitle">MUAR 2.0 — Capa 2: Profundización con conexiones</p>
+  </header>
+
+  <main id="main-content">
+    <section class="card">
+      <div class="card-title">🔄 Ya diste el primer paso</div>
+      <p>Si estás leyendo esto, es porque algo de Capa 1 te resonó. No importa cuál puerta elegiste. Lo importante es que <strong>preguntaste</strong>.</p>
+      <div class="quote">"Pensá en la micro-experiencia que hiciste en Capa 1. ¿Qué fue lo que más te sorprendió?"</div>
+      <button class="cta-button cta-secondary" onclick="saveNote()">💾 Guardar mi respuesta en notas</button>
+    </section>
+
+    <section>
+      <h2>🗺️ Mapa de rutas exploratorias</h2>
+      <p>No hay un camino "correcto". Hay senderos que se cruzan. Elegí el que más te llame ahora. Podés cambiar después.</p>
+      
+      <div class="route-options">
+        <button class="route-btn active" onclick="showRoute('hacedor')" id="btn-hacedor">
+          <span class="route-icon">🔧</span>
+          <div><strong>"Quiero hacer cosas que funcionen"</strong><br><small style="color: var(--text-muted);">Ruta Hacedor: Construir</small></div>
+        </button>
+        <button class="route-btn" onclick="showRoute('pensador')" id="btn-pensador">
+          <span class="route-icon">🧠</span>
+          <div><strong>"Quiero entender cómo funciona"</strong><br><small style="color: var(--text-muted);">Ruta Pensador: Explorar</small></div>
+        </button>
+        <button class="route-btn" onclick="showRoute('critico')" id="btn-critico">
+          <span class="route-icon">🔍</span>
+          <div><strong>"Quiero entender el impacto social"</strong><br><small style="color: var(--text-muted);">Ruta Crítico: Cuestionar</small></div>
+        </button>
+      </div>
+
+      <div id="route-hacedor" class="route-content active">
+        <div class="card" style="margin-top: 12px;">
+          <p><strong>Si te gusta construir:</strong></p>
+          <ul style="padding-left: 20px; color: var(--text-secondary);">
+            <li>Programación (Python, JS)</li>
+            <li>Desarrollo web/móvil</li>
+            <li>Metaverso y experiencias inmersivas</li>
+          </ul>
+          <p style="margin-top: 12px;"><em>Primer paso concreto:</em> Crear una página web simple con HTML/CSS en tu celular.</p>
+        </div>
+      </div>
+
+      <div id="route-pensador" class="route-content" hidden>
+        <div class="card" style="margin-top: 12px;">
+          <p><strong>Si te gusta entender:</strong></p>
+          <ul style="padding-left: 20px; color: var(--text-secondary);">
+            <li>Ciencia de datos y análisis</li>
+            <li>IA y aprendizaje automático</li>
+            <li>Algoritmos y lógica computacional</li>
+          </ul>
+          <p style="margin-top: 12px;"><em>Primer paso concreto:</em> Analizar un dataset público en Google Colab.</p>
+        </div>
+      </div>
+
+      <div id="route-critico" class="route-content" hidden>
+        <div class="card" style="margin-top: 12px;">
+          <p><strong>Si te gusta cuestionar:</strong></p>
+          <ul style="padding-left: 20px; color: var(--text-secondary);">
+            <li>Ética de la inteligencia artificial</li>
+            <li>Gobernanza tecnológica</li>
+            <li>Soberanía digital y políticas públicas</li>
+          </ul>
+          <p style="margin-top: 12px;"><em>Primer paso concreto:</em> Leer un caso de sesgo algorítmico y debatir.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🔍 Áreas tech con perspectiva MUAR</h2>
+      <div class="card">
+        <div class="card-title">🌎 Lente regional: LatAm/Argentina</div>
+        <p>El panorama global no es el único mapa. Acá también se innova.</p>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Área</th><th>Oportunidad local</th></tr></thead>
+            <tbody>
+              <tr><td><strong>IA/ML</strong></td><td>Startups en BA, Córdoba; comunidad open-source activa</td></tr>
+              <tr><td><strong>Ciberseguridad</strong></td><td>Becas para certificaciones; laboratorios virtuales</td></tr>
+              <tr><td><strong>Full Stack</strong></td><td>Alta demanda local y remota; bootcamps con pago posterior</td></tr>
+              <tr><td><strong>Ética tech</strong></td><td>Vacío normativo = oportunidad para incidir temprano</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="journal">
+      <h2 style="margin-top: 0; border: none; padding: 0;">📓 Bitácora de aprendizaje</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">No es evaluación. Es registro del pensamiento en movimiento.</p>
+      <div class="journal-field">
+        <label class="journal-label" for="fecha">📅 Fecha</label>
+        <input type="date" id="fecha" class="journal-input">
+      </div>
+      <div class="journal-field">
+        <label class="journal-label" for="resono">💡 Lo que más me resonó</label>
+        <textarea id="resono" class="journal-input" rows="2" placeholder="Escribí aquí..."></textarea>
+      </div>
+      <div class="journal-field">
+        <label class="journal-label" for="pregunta">❓ La pregunta que me quedó</label>
+        <textarea id="pregunta" class="journal-input" rows="2" placeholder="Escribí aquí..."></textarea>
+      </div>
+      <button class="cta-button" onclick="saveJournal()">💾 Guardar bitácora</button>
+    </section>
+
+    <section>
+      <h2>🧭 Señales de navegación</h2>
+      <p>El error es constitutivo del proceso, no un desvío.</p>
+      <div class="signals">
+        <div class="signal-card signal-positive">
+          <div class="signal-title">✅ Estás en el camino si...</div>
+          <ul style="padding-left: 20px; color: var(--text-secondary);">
+            <li>Sentís curiosidad por algo que antes no entendías</li>
+            <li>Te animás a preguntar "¿y si...?" sin tener la respuesta</li>
+            <li>Reconocés cuando no sabés, y eso no te paraliza</li>
+            <li>Volvés a intentar después de fallar</li>
+          </ul>
+        </div>
+        <div class="signal-card signal-reorient">
+          <div class="signal-title">🔄 Quizás conviene reorientar si...</div>
+          <ul style="padding-left: 20px; color: var(--text-secondary);">
+            <li>Sentís que solo estás "cumpliendo" sin conexión real</li>
+            <li>La ansiedad por "elegir bien" te paraliza</li>
+            <li>Seguís un camino porque "se supone", no porque te llame</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-title">🚀 ¿Y ahora?</div>
+      <div class="cta-group">
+        <a href="capa3.html" class="cta-button">Ir a Capa 3: Especialización</a>
+        <a href="capa1.html" class="cta-button cta-secondary">← Volver a Capa 1</a>
+      </div>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 12px;">El marco sirve al contexto, no al revés.<br>Adaptá antes de adoptar.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>MUAR 2.0 — Marco Universal de Aprendizaje Recursivo</p>
+    <p>El espectro permanece abierto.</p>
+    <p>🐍✨🧠🌍</p>
+  </footer>
+
+  <script>
+    function showRoute(routeId) {
+      document.querySelectorAll('.route-content').forEach(content => { content.classList.remove('active'); content.hidden = true; });
+      document.querySelectorAll('.route-btn').forEach(btn => { btn.classList.remove('active'); });
+      document.getElementById('route-' + routeId).classList.add('active');
+      document.getElementById('route-' + routeId).hidden = false;
+      document.getElementById('btn-' + routeId).classList.add('active');
+      localStorage.setItem('muar_capa2_ruta', routeId);
+    }
+
+    function saveJournal() {
+      const fecha = document.getElementById('fecha').value;
+      const resono = document.getElementById('resono').value;
+      const pregunta = document.getElementById('pregunta').value;
+      localStorage.setItem('muar_bitacora_capa2', JSON.stringify({ fecha, resono, pregunta }));
+      alert('✅ Bitácora guardada localmente.');
+    }
+
+    function saveNote() {
+      alert('💡 Tip: Copiá tu respuesta y pegala en la app de Notas de tu celular.');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('fecha').value = new Date().toISOString().split('T')[0];
+      const savedRoute = localStorage.getItem('muar_capa2_ruta');
+      if (savedRoute) showRoute(savedRoute);
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => console.log('SW registrado'));
+    }
+  </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('Service Worker registrado'));
+  }
+</script>
+</body>
+</html>

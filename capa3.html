@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Brújula Tecnológica | MUAR 2.0 — Capa 3</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a; --bg-secondary: #1a1a1a; --bg-tertiary: #252525; --bg-card: #1e1e1e; --bg-accent: #2a2a4a;
+      --text-primary: #e0e0e0; --text-secondary: #b0b0b0; --text-muted: #808080;
+      --accent: #7a9cff; --accent-dim: #5a7acc; --accent-soft: #9ab0ff; --border: #333333;
+      --success: #6fcc8a; --warning: #ffb86c;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-primary); color: var(--text-primary); line-height: 1.6; font-size: 18px; padding: 16px; max-width: 600px; margin: 0 auto; }
+    h1 { font-size: 1.4rem; color: var(--accent); margin-bottom: 4px; font-weight: 600; }
+    h2 { font-size: 1.25rem; color: var(--text-primary); margin: 28px 0 12px 0; font-weight: 600; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    h3 { font-size: 1.1rem; color: var(--text-secondary); margin: 20px 0 8px 0; font-weight: 500; }
+    p { margin-bottom: 16px; color: var(--text-secondary); }
+    .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; font-style: italic; }
+    .quote { border-left: 3px solid var(--accent); padding-left: 16px; margin: 20px 0; color: var(--text-secondary); font-style: italic; background-color: var(--bg-tertiary); padding: 12px 16px; border-radius: 0 6px 6px 0; }
+    .card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .card-title { color: var(--accent); font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 1.05rem; }
+    .route-selector { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+    .route-option { padding: 14px 16px; background-color: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: all 0.2s ease; text-align: left; }
+    .route-option:hover, .route-option:focus, .route-option.active { background-color: var(--accent-dim); border-color: var(--accent); outline: none; }
+    .route-option.active { color: #000; font-weight: 600; }
+    .route-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .route-icon { font-size: 1.2rem; }
+    .route-desc { font-size: 0.9rem; color: var(--text-muted); }
+    .route-content { display: none; margin-top: 16px; animation: fadeIn 0.3s ease; }
+    .route-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .project-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 12px 0; }
+    .project-table th, .project-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .project-table th { background-color: var(--bg-tertiary); color: var(--accent); font-weight: 600; }
+    .project-table td { color: var(--text-secondary); }
+    .table-container { overflow-x: auto; margin: 16px 0; }
+    .cycle-diagram { background-color: var(--bg-secondary); border-radius: 8px; padding: 16px; margin: 20px 0; text-align: center; }
+    .cycle-step { padding: 12px; margin: 8px 0; background-color: var(--bg-tertiary); border-radius: 6px; border-left: 4px solid var(--accent); text-align: left; }
+    .cycle-step strong { color: var(--accent); }
+    .mentorship-grid { display: grid; gap: 12px; margin: 16px 0; }
+    .mentor-card { padding: 12px 16px; background-color: var(--bg-tertiary); border-radius: 6px; border-left: 4px solid var(--accent-soft); }
+    .mentor-card strong { color: var(--accent); }
+    .journal { background-color: var(--bg-card); border-radius: 8px; padding: 20px; margin: 24px 0; }
+    .journal-field { margin-bottom: 16px; }
+    .journal-label { display: block; color: var(--accent); font-weight: 500; margin-bottom: 6px; font-size: 0.95rem; }
+    .journal-input, .journal-textarea { width: 100%; padding: 10px 12px; background-color: var(--bg-primary); border: 1px solid var(--border); border-radius: 4px; color: var(--text-primary); font-size: 0.95rem; }
+    .journal-textarea { min-height: 60px; resize: vertical; }
+    .journal-input:focus, .journal-textarea:focus { outline: none; border-color: var(--accent); }
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; }
+    .checkbox-group label { display: flex; align-items: center; gap: 6px; font-size: 0.9rem; color: var(--text-secondary); }
+    .projection-options { display: grid; gap: 10px; margin: 16px 0; }
+    .projection-card { padding: 12px 16px; background-color: var(--bg-tertiary); border-radius: 6px; border-left: 4px solid var(--success); }
+    .projection-card strong { color: var(--accent); }
+    .cta-button { display: block; width: 100%; padding: 14px 20px; background-color: var(--accent); color: #000; text-align: center; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 20px 0 12px 0; transition: background-color 0.2s ease; border: none; font-size: 1rem; cursor: pointer; }
+    .cta-button:hover, .cta-button:focus { background-color: var(--accent-dim); outline: none; }
+    .cta-secondary { background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+    .cta-secondary:hover, .cta-secondary:focus { background-color: var(--border); }
+    .cta-group { display: flex; flex-direction: column; gap: 10px; margin: 24px 0; }
+    .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.85rem; text-align: center; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="sr-only">Saltar al contenido principal</a>
+  
+  <header>
+    <h1>🧭 Brújula Tecnológica</h1>
+    <p class="subtitle">MUAR 2.0 — Capa 3: Especialización con impacto</p>
+  </header>
+
+  <main id="main-content">
+    <section class="card">
+      <div class="card-title">🔄 Tu recorrido hasta acá</div>
+      <p>Si llegaste hasta acá, no fue por azar. Fue por <strong>curiosidad sostenida</strong>.</p>
+      <div class="quote">"Releé tu bitácora de Capa 2. ¿Qué cambió en tu forma de ver la tecnología desde Capa 1?"</div>
+      <button class="cta-button cta-secondary" onclick="saveNote()">💾 Guardar mi reflexión</button>
+    </section>
+
+    <section>
+      <h2>🎯 Elegí un proyecto aplicado</h2>
+      <p>No se trata de "elegir una carrera". Se trata de <strong>elegir un desafío concreto que te movilice</strong>.</p>
+      
+      <div class="route-selector">
+        <button class="route-option active" onclick="showRoute('hacedor')" id="btn-hacedor">
+          <div class="route-header"><span class="route-icon">🔧</span><strong>Ruta Hacedor</strong></div>
+          <div class="route-desc">"Quiero construir algo que funcione"</div>
+        </button>
+        <button class="route-option" onclick="showRoute('pensador')" id="btn-pensador">
+          <div class="route-header"><span class="route-icon">🧠</span><strong>Ruta Pensador</strong></div>
+          <div class="route-desc">"Quiero entender cómo funciona"</div>
+        </button>
+        <button class="route-option" onclick="showRoute('critico')" id="btn-critico">
+          <div class="route-header"><span class="route-icon">🔍</span><strong>Ruta Crítico</strong></div>
+          <div class="route-desc">"Quiero cuestionar el impacto social"</div>
+        </button>
+      </div>
+
+      <div id="route-hacedor" class="route-content active">
+        <div class="card">
+          <p><strong>Proyectos para quien quiere construir:</strong></p>
+          <div class="table-container">
+            <table class="project-table">
+              <thead><tr><th>Proyecto</th><th>Primer paso</th></tr></thead>
+              <tbody>
+                <tr><td><strong>App comunitaria</strong><br><small>Para resolver un problema del barrio</small></td><td>Escribir: ¿qué problema veo cerca mío?</td></tr>
+                <tr><td><strong>Bot útil</strong><br><small>Que responda preguntas frecuentes</small></td><td>Listar 5 preguntas que se repiten siempre</td></tr>
+                <tr><td><strong>Juego con mensaje</strong><br><small>Que comunique una idea</small></td><td>Definir: ¿qué quiero que quien juegue sienta?</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="route-pensador" class="route-content" hidden>
+        <div class="card">
+          <p><strong>Proyectos para quien quiere entender:</strong></p>
+          <div class="table-container">
+            <table class="project-table">
+              <thead><tr><th>Proyecto</th><th>Primer paso</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Análisis de datos local</strong><br><small>Con datos públicos de tu provincia</small></td><td>Buscar un dataset abierto</td></tr>
+                <tr><td><strong>Auditoría algorítmica</strong><br><small>Analizar cómo una app toma decisiones</small></td><td>Registrar: ¿qué me muestra y por qué?</td></tr>
+                <tr><td><strong>Modelo de IA ético</strong><br><small>Entrenar con datos propios</small></td><td>Elegir un conjunto pequeño de datos que conozcas</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="route-critico" class="route-content" hidden>
+        <div class="card">
+          <p><strong>Proyectos para quien quiere cuestionar:</strong></p>
+          <div class="table-container">
+            <table class="project-table">
+              <thead><tr><th>Proyecto</th><th>Primer paso</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Manifiesto tech local</strong><br><small>Sobre qué tecnología queremos</small></td><td>Listar 3 valores que deberían guiar la tecnología acá</td></tr>
+                <tr><td><strong>Campaña de alfabetización</strong><br><small>Para reducir brecha digital</small></td><td>Identificar: ¿qué habilidad tech sería más útil?</td></tr>
+                <tr><td><strong>Investigación-acción</strong><br><small>Documentar impacto en un grupo</small></td><td>Definir: ¿a quién quiero escuchar y cómo?</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🔄 Diseño iterativo con mentoría</h2>
+      <p>El error es constitutivo del proceso, no un desvío.</p>
+      <div class="cycle-diagram">
+        <div class="cycle-step"><strong>1. PLANIFICAR</strong><br>¿Qué quiero lograr? ¿Qué necesito? ¿Quién puede ayudarme?</div>
+        <div class="cycle-step"><strong>2. HACER</strong><br>Versión mínima viable. Documentar decisiones.</div>
+        <div class="cycle-step"><strong>3. PROBAR</strong><br>Con pares, con usuarios. Escuchar, no defender.</div>
+        <div class="cycle-step"><strong>4. AJUSTAR</strong><br>¿Qué aprendí? ¿Qué cambio? ¿Qué sigo?</div>
+        <p style="margin-top: 12px; font-size: 0.9rem; color: var(--text-muted);">↻ Repetir el ciclo según sea necesario</p>
+      </div>
+    </section>
+
+    <section class="journal">
+      <h2 style="margin-top: 0; border: none; padding: 0;">🪞 Cierre reflexivo</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">El espectro permanece abierto.</p>
+      <div class="journal-field">
+        <label class="journal-label" for="fecha-cierre">📅 Fecha de cierre</label>
+        <input type="date" id="fecha-cierre" class="journal-input">
+      </div>
+      <div class="journal-field">
+        <label class="journal-label">🎯 Sobre el proyecto</label>
+        <div class="checkbox-group">
+          <label><input type="radio" name="logro" value="si"> Sí, lo logré</label>
+          <label><input type="radio" name="logro" value="parcial"> Parcialmente</label>
+          <label><input type="radio" name="logro" value="no"> No, pero...</label>
+        </div>
+        <textarea class="journal-textarea" placeholder="¿Qué fue lo más valioso del proceso (más allá del resultado)?"></textarea>
+      </div>
+      <div class="journal-field">
+        <label class="journal-label" for="palabra">✨ Una palabra para cerrar este ciclo</label>
+        <input type="text" id="palabra" class="journal-input" placeholder="Escribí una palabra...">
+      </div>
+      <button class="cta-button" onclick="saveFinalJournal()">💾 Guardar cierre</button>
+    </section>
+
+    <section class="card">
+      <div class="card-title">🚀 ¿Y ahora?</div>
+      <div class="projection-options">
+        <div class="projection-card"><strong>Si querés profundizar</strong><br><small>Buscar mentoría específica, aplicar a una beca</small></div>
+        <div class="projection-card"><strong>Si querés explorar otra ruta</strong><br><small>Volver a Capa 1 o 2 con nueva perspectiva</small></div>
+        <div class="projection-card"><strong>Si querés descansar</strong><br><small>Guardar el portafolio, volver cuando la curiosidad lo pida</small></div>
+      </div>
+      <div class="cta-group">
+        <a href="capa4.html" class="cta-button">Ir a Capa 4: Ítaca →</a>
+        <a href="capa2.html" class="cta-button cta-secondary">← Volver a Capa 2</a>
+      </div>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 12px;">Cerrar no es terminar.<br>Es reconocer un ciclo para abrir el siguiente con más conciencia.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>MUAR 2.0 — Marco Universal de Aprendizaje Recursivo</p>
+    <p>El espectro permanece abierto.</p>
+    <p>🐍✨🧠🌍</p>
+  </footer>
+
+  <script>
+    function showRoute(routeId) {
+      document.querySelectorAll('.route-content').forEach(content => { content.classList.remove('active'); content.hidden = true; });
+      document.querySelectorAll('.route-option').forEach(btn => { btn.classList.remove('active'); });
+      document.getElementById('route-' + routeId).classList.add('active');
+      document.getElementById('route-' + routeId).hidden = false;
+      document.getElementById('btn-' + routeId).classList.add('active');
+      localStorage.setItem('muar_capa3_ruta', routeId);
+    }
+
+    function saveFinalJournal() {
+      const palabra = document.getElementById('palabra').value;
+      localStorage.setItem('muar_capa3_cierre', palabra);
+      alert('✅ Cierre guardado localmente.\n\n"Una palabra para cerrar": ' + (palabra || '...'));
+    }
+
+    function saveNote() {
+      alert('💡 Tip: Copiá tu reflexión y pegala en la app de Notas de tu celular.');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('fecha-cierre').value = new Date().toISOString().split('T')[0];
+      const savedRoute = localStorage.getItem('muar_capa3_ruta');
+      if (savedRoute) showRoute(savedRoute);
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => console.log('SW registrado'));
+    }
+  </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('Service Worker registrado'));
+  }
+</script>
+</body>
+</html>

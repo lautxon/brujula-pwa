@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Brújula Tecnológica | MUAR 2.0</title>
+  <meta http-equiv="refresh" content="0; url=capa1.html">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --text-primary: #e0e0e0;
+      --accent: #7a9cff;
+    }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div>
+    <p>🧭 Redirigiendo a la Brújula Tecnológica...</p>
+    <p><a href="capa1.html">Si no redirige automáticamente, tocá acá</a></p>
+  </div>
+  <script>
+    // Registrar service worker si existe
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('Service Worker registrado'));
+    }
+  </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('Service Worker registrado'));
+  }
+</script>
+</body>
+</html>

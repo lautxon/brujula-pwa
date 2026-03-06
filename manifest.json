@@ -1,0 +1,13 @@
+{
+  "name": "Brújula Tecnológica MUAR 2.0",
+  "short_name": "Brújula MUAR",
+  "start_url": "/capa1.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#7a9cff",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
